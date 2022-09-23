@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/constants.dart';
+import 'package:shop_app/products.dart';
+import 'package:shop_app/screens/home/components/categorries.dart';
 
 class Body extends StatelessWidget {
   @override
@@ -18,54 +20,57 @@ class Body extends StatelessWidget {
           ),
         ),
         Categories(),
+        ItemCard(),
+        // Expanded(
+        //     child: GridView.builder(
+        //   gridDelegate:
+        //       SilverGridDelegateWithFixedCrossAxisCount(contextcrossAxisCount: 2),
+        //   itemBuilder: (context, index) => ItemCard(),
+        // ),
+        // ),
       ],
     );
   }
 }
-//We need stateful widget for our categories
 
-class Categories extends StatefulWidget {
-  @override
-  _CategoriesState createState() => _CategoriesState();
-}
+class ItemCard extends StatelessWidget {
+  
+  final Product product;
+  final Function press;
+  const ItemCard({
+    Key? key,
+    required this.product,
+    required this.press,
+  }) : super(key: key);
 
-class _CategoriesState extends State<Categories> {
-  List<String> categories = ["Hand bag", "Jewellery", "Footwear", "Dresses"];
-  //By default our first item will be selected
-  int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 25,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: categories.length,
-        itemBuilder: (context, index) => buildCategory(index),
-      ),
-    );
-  }
-
-  Widget buildCategory(int index) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            categories[index],
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: kTextColor,
-            ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Container(
+          padding: EdgeInsets.all(kDefaultPadding),
+          height: 180,
+          width: 160,
+          decoration: BoxDecoration(
+            color: products[0].color,
+            borderRadius:
+                BorderRadius.circular(16), //makses square box circular
           ),
-          Container(
-            margin: EdgeInsets.only(top: kDefaultPadding / 4), //top padding 5
-            height: 2,
-            width: 30,
-            color: Colors.black,
-          ),
-        ],
-      ),
+          child: Image.asset(products[0].image),
+        ),
+        Padding(
+            padding: const EdgeInsets.symmetric(vertical: kDefaultPadding / 4),
+            child: Text(
+              //product is out demo list
+              products[0].title,
+              style: TextStyle(color: kTextLightColor),
+            )),
+        Text(
+          "\$234",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ],
     );
   }
 }
